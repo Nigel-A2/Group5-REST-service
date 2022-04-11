@@ -46,6 +46,10 @@
           <element id="library" level="project" name="Maven: jakarta.enterprise:jakarta.enterprise.cdi-api:2.0.2" />
           <element id="library" level="project" name="Maven: jakarta.inject:jakarta.inject-api:1.0" />
           <element id="library" level="project" name="Maven: org.jboss.classfilewriter:jboss-classfilewriter:1.2.5.Final" />
+          <element id="library" level="project" name="Maven: org.mariadb.jdbc:mariadb-java-client:3.0.4" />
+          <element id="library" level="project" name="Maven: com.googlecode.json-simple:json-simple:1.1.1" />
+          <element id="library" level="project" name="Maven: junit:junit:4.10" />
+          <element id="library" level="project" name="Maven: org.hamcrest:hamcrest-core:1.1" />
         </element>
       </element>
       <element id="directory" name="META-INF">
