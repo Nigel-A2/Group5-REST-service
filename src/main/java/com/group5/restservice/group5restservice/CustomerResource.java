@@ -1,16 +1,13 @@
 package com.group5.restservice.group5restservice;
 
 import com.google.gson.Gson;
-import com.google.gson.reflect.TypeToken;
 import com.group5.model.Customer;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
-import javax.persistence.Query;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-import java.lang.reflect.Type;
-import java.util.List;
+
 
 
 @Path("/customer")
@@ -27,14 +24,6 @@ public class CustomerResource {
             e.printStackTrace();
         }
     }
-
-    /*@GET
-    @Produces(MediaType.APPLICATION_JSON)
-    public String getCustomers() {
-        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
-        EntityManager entityManager = entityManagerFactory.createEntityManager();
-        Query query = entityManager.createQuery("select c from Customer c");
-    }*/
 
     // this method will retrieve the customer's data based on the ID number specified in the URL
     @GET
@@ -78,6 +67,53 @@ public class CustomerResource {
             entityManager.getTransaction().rollback();
             entityManager.close();
             return "{ 'message':'Update failed' }";
+        }
+    }
+
+    // this method will create a new customer account and add it to the database
+    @PUT
+    // websiteURL/api/customer/createcustomer
+    @Path("createcustomer")
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    public String createCustomer(String jsonString)
+    {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+
+        Gson gson = new Gson();
+        Customer customer = gson.fromJson(jsonString, Customer.class);
+        entityManager.getTransaction().begin();
+        entityManager.persist(customer);
+        entityManager.getTransaction().commit();
+        entityManager.close();
+        // set the customer id to 0 when making this request
+        return "{ 'message':'Insert successful' }";
+    }
+
+    // this method will delete a customer account based on the Id number provided
+    @DELETE
+    // websiteURL/api/customer/deletecustomer/customerId
+    @Path("/deletecustomer/{ customerId }")
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deleteCustomer(@PathParam("customerId") int customerId)
+    {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Customer customer = entityManager.find(Customer.class, customerId);
+        entityManager.getTransaction().begin();
+        entityManager.remove(customer);
+        if (!entityManager.contains(customer))
+        {
+            entityManager.getTransaction().commit();
+            entityManager.close();
+            return "{ 'message':'Delete successful' }";
+        }
+        else
+        {
+            entityManager.getTransaction().rollback();
+            entityManager.close();
+            return "{ 'message':'Delete failed' }";
         }
     }
 }
