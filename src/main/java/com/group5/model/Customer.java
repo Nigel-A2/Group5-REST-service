@@ -40,9 +40,9 @@ public class Customer {
     @Column(name = "CustEmail", nullable = false, length = 50)
     private String custEmail;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "AgentId")
-    private Agent agent;
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "AgentId")
+    private Integer agentId;
 
     public Integer getCustomerId() {
         return customerId;
@@ -132,12 +132,12 @@ public class Customer {
         this.custEmail = custEmail;
     }
 
-    public Agent getAgent() {
-        return agent;
+    public Integer getAgentId() {
+        return agentId;
     }
 
-    public void setAgent(Agent agent) {
-        this.agent = agent;
+    public void setAgentId(Integer agent) {
+        this.agentId = agent;
     }
 
 }

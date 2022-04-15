@@ -24,6 +24,9 @@
           <element id="library" level="project" name="Maven: org.glassfish.jersey.core:jersey-client:2.34" />
           <element id="library" level="project" name="Maven: jakarta.validation:jakarta.validation-api:2.0.2" />
           <element id="library" level="project" name="Maven: jakarta.ws.rs:jakarta.ws.rs-api:2.1.6" />
+          <element id="library" level="project" name="Maven: org.eclipse.persistence:eclipselink:2.7.9" />
+          <element id="library" level="project" name="Maven: org.eclipse.persistence:jakarta.persistence:2.2.3" />
+          <element id="library" level="project" name="Maven: org.eclipse.persistence:commonj.sdo:2.1.1" />
           <element id="library" level="project" name="Maven: org.glassfish.jersey.media:jersey-media-json-jackson:2.34" />
           <element id="library" level="project" name="Maven: org.glassfish.jersey.ext:jersey-entity-filtering:2.34" />
           <element id="library" level="project" name="Maven: com.fasterxml.jackson.core:jackson-annotations:2.12.2" />
