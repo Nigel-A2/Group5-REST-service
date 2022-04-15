@@ -12,6 +12,7 @@ import javax.ws.rs.core.MediaType;
 import java.lang.reflect.Type;
 import java.util.List;
 
+
 @Path("/customer")
 public class CustomerResource {
     // Tomcat won't work without this constructor
@@ -19,7 +20,7 @@ public class CustomerResource {
     {
         try
         {
-            Class.forName("org.mysql.jdbc.Driver");
+            Class.forName("org.mariadb.jdbc.Driver");
         }
         catch (ClassNotFoundException e)
         {
