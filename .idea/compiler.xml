@@ -10,7 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="Group5-REST-service" target="1.8" />
+      <module name="Group5-REST-service" target="9" />
     </bytecodeTargetLevel>
   </component>
 </project>
