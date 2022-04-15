@@ -15,6 +15,7 @@
     <facet type="jpa" name="JPA">
       <configuration>
         <setting name="validation-enabled" value="true" />
+        <setting name="provider-name" value="EclipseLink" />
         <datasource-mapping />
         <naming-strategy-map />
         <deploymentDescriptor name="persistence.xml" url="file://$MODULE_DIR$/src/main/resources/META-INF/persistence.xml" />
@@ -78,5 +79,10 @@
     <orderEntry type="library" name="Maven: junit:junit:4.10" level="project" />
     <orderEntry type="library" name="Maven: org.hamcrest:hamcrest-core:1.1" level="project" />
     <orderEntry type="library" name="Maven: com.google.code.gson:gson:2.9.0" level="project" />
+    <orderEntry type="library" name="fasterxml.jackson.jaxrs.base" level="project" />
+    <orderEntry type="library" name="fasterxml.jackson.jaxrs.json.provider" level="project" />
+    <orderEntry type="library" name="eclipse.persistence.core" level="project" />
+    <orderEntry type="library" name="eclipse.persistence.sdo" level="project" />
+    <orderEntry type="library" name="eclipse.persistence.jakarta" level="project" />
   </component>
 </module>
