@@ -8,7 +8,7 @@ public class Customer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "CustomerId", nullable = false)
-    private Integer id;
+    private Integer customerId;
 
     @Column(name = "CustFirstName", nullable = false, length = 25)
     private String custFirstName;
@@ -44,12 +44,12 @@ public class Customer {
     @JoinColumn(name = "AgentId")
     private Agent agent;
 
-    public Integer getId() {
-        return id;
+    public Integer getCustomerId() {
+        return customerId;
     }
 
-    public void setId(Integer id) {
-        this.id = id;
+    public void setCustomerId(Integer id) {
+        this.customerId = id;
     }
 
     public String getCustFirstName() {
