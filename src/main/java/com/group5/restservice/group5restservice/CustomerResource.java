@@ -30,6 +30,10 @@ public class CustomerResource {
         }
     }
 
+    /**
+     * Endpoint that retrieves a list of customers
+     * @author Nate Penner
+     * */
     @GET
     @Produces(MediaType.APPLICATION_JSON)
     public String getCustomerList() {
