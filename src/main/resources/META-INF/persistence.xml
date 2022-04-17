@@ -5,6 +5,9 @@
              version="2.2">
     <persistence-unit name="default">
         <class>com.group5.model.Customer</class>
+        <class>com.group5.model.Product</class>
+        <class>com.group5.model.Package</class>
+        <class>com.group5.model.Booking</class>
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://localhost:3306/travelexperts"/>
             <property name="javax.persistence.jdbc.user" value="travelexperts"/>
