@@ -3,4 +3,5 @@
 out/
 target/
 **/connection.properties
+**/persistence.xml
 .idea/artifacts/Group5_REST_service_war_exploded.xml
