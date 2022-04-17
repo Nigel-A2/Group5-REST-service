@@ -14,7 +14,11 @@ import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.util.List;
 
-
+/**
+ * Customer resource - an endpoint for CRUD operations on TravelExperts customers
+ * @author Nigel Awrey
+ * @co-author Nate Penner
+ * */
 @Path("/customer")
 public class CustomerResource {
     // Tomcat won't work without this constructor
