@@ -7,8 +7,8 @@
         <class>com.group5.model.Customer</class>
         <properties>
             <property name="javax.persistence.jdbc.url" value="jdbc:mariadb://localhost:3306/travelexperts"/>
-            <property name="javax.persistence.jdbc.user" value="harv"/>
-            <property name="javax.persistence.jdbc.password" value="password"/>
+            <property name="javax.persistence.jdbc.user" value="travelexperts"/>
+            <property name="javax.persistence.jdbc.password" value="12345"/>
             <property name="eclipselink.target-database" value="MySQL"/>
         </properties>
     </persistence-unit>

@@ -4,6 +4,6 @@ import javax.ws.rs.ApplicationPath;
 import javax.ws.rs.core.Application;
 
 @ApplicationPath("/api")
-public class TravelexpertsApplication extends Application {
+public class TravelExpertsApplication extends Application {
     // we need /api as part of the URL, so DO NOT remove this file
 }
