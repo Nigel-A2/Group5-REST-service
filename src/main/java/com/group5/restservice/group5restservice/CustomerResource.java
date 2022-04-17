@@ -1,13 +1,18 @@
 package com.group5.restservice.group5restservice;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.group5.model.Customer;
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
+import javax.persistence.Query;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
-
+import java.lang.reflect.Type;
+import java.sql.DriverManager;
+import java.sql.SQLException;
+import java.util.List;
 
 
 @Path("/customer")
@@ -23,6 +28,21 @@ public class CustomerResource {
         {
             e.printStackTrace();
         }
+    }
+
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getCustomerList() {
+        EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
+        EntityManager entityManager = entityManagerFactory.createEntityManager();
+        Query query = entityManager.createQuery("select c from Customer c");
+        List<Customer> list = query.getResultList();
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Customer>>() {
+        }.getType();
+        entityManager.close();
+        return gson.toJson(list, type);
     }
 
     // this method will retrieve the customer's data based on the ID number specified in the URL
