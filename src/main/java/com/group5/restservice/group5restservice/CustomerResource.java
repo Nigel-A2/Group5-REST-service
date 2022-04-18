@@ -17,7 +17,6 @@ import java.util.List;
 /**
  * Customer resource - an endpoint for CRUD operations on TravelExperts customers
  * @author Nigel Awrey
- * @co-author Nate Penner
  * */
 @Path("/customer")
 public class CustomerResource {
@@ -39,6 +38,8 @@ public class CustomerResource {
      * @author Nate Penner
      * */
     @GET
+    // websiteURL/api/customer/list
+    @Path("/list")
     @Produces(MediaType.APPLICATION_JSON)
     public String getCustomerList() {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
@@ -55,8 +56,8 @@ public class CustomerResource {
 
     // this method will retrieve the customer's data based on the ID number specified in the URL
     @GET
-    // websiteURL/api/customer/getcustomer/customerId
-    @Path("/getcustomer/{customerId}")
+    // websiteURL/api/customer/get/customerId
+    @Path("/get/{customerId}")
     @Produces(MediaType.APPLICATION_JSON)
     public String getCustomer(@PathParam("customerId") int customerId)
     {
@@ -71,8 +72,8 @@ public class CustomerResource {
     // this method will update the customer's data
     // it must receive data from the website and app in order to update the data accordingly
     @POST
-    // websiteURL/api/customer/updatecustomer
-    @Path("/updatecustomer")
+    // websiteURL/api/customer/update
+    @Path("/update")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     public String updateCustomer(String jsonString)
@@ -100,8 +101,8 @@ public class CustomerResource {
 
     // this method will create a new customer account and add it to the database
     @PUT
-    // websiteURL/api/customer/createcustomer
-    @Path("createcustomer")
+    // websiteURL/api/customer/create
+    @Path("/create")
     @Produces(MediaType.APPLICATION_JSON)
     @Consumes({MediaType.APPLICATION_JSON})
     public String createCustomer(String jsonString)
@@ -121,8 +122,8 @@ public class CustomerResource {
 
     // this method will delete a customer account based on the Id number provided
     @DELETE
-    // websiteURL/api/customer/deletecustomer/customerId
-    @Path("/deletecustomer/{ customerId }")
+    // websiteURL/api/customer/delete/customerId
+    @Path("/delete/{ customerId }")
     @Produces(MediaType.APPLICATION_JSON)
     public String deleteCustomer(@PathParam("customerId") int customerId)
     {

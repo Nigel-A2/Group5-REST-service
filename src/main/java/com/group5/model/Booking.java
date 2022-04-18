@@ -9,7 +9,7 @@ public class Booking {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "BookingId", nullable = false)
-    private Integer id;
+    private Integer bookingId;
 
     @Column(name = "BookingDate")
     private Instant bookingDate;
@@ -29,11 +29,11 @@ public class Booking {
     private Integer _package;
 
     public Integer getId() {
-        return id;
+        return bookingId;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.bookingId = id;
     }
 
     public Instant getBookingDate() {
