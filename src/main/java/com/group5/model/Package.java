@@ -16,10 +16,10 @@ public class Package {
     private String pkgName;
 
     @Column(name = "PkgStartDate")
-    private Instant pkgStartDate;
-
+    private String pkgStartDate;
+// Instant
     @Column(name = "PkgEndDate")
-    private Instant pkgEndDate;
+    private String  pkgEndDate;
 
     @Column(name = "PkgDesc", length = 50)
     private String pkgDesc;
@@ -46,19 +46,19 @@ public class Package {
         this.pkgName = pkgName;
     }
 
-    public Instant getPkgStartDate() {
+    public String getPkgStartDate() {
         return pkgStartDate;
     }
 
-    public void setPkgStartDate(Instant pkgStartDate) {
+    public void setPkgStartDate(String pkgStartDate) {
         this.pkgStartDate = pkgStartDate;
     }
 
-    public Instant getPkgEndDate() {
+    public String  getPkgEndDate() {
         return pkgEndDate;
     }
 
-    public void setPkgEndDate(Instant pkgEndDate) {
+    public void setPkgEndDate(String  pkgEndDate) {
         this.pkgEndDate = pkgEndDate;
     }
 
