@@ -17,7 +17,7 @@ import java.lang.reflect.Type;
 import java.util.List;
 
 /**
- * Package resource - an endpoint for CRUD operations on TravelExperts packages
+ * Package resource - an endpoint for read operations on TravelExperts packages
  * @author Nigel Awrey
  * */
 // This is supposed to represent a website that customers use

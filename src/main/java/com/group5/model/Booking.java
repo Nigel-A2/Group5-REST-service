@@ -12,21 +12,21 @@ public class Booking {
     private Integer bookingId;
 
     @Column(name = "BookingDate")
-    private Instant bookingDate;
+    private String bookingDate; // was type Instant
 
     @Column(name = "BookingNo", length = 50)
     private String bookingNo;
 
     @Column(name = "TravelerCount")
-    private Double travelerCount;
+    private Integer travelerCount;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "CustomerId")
-    private Customer customer;
+    @Basic(fetch = FetchType.LAZY) // was ManyToOne
+    @Column(name = "CustomerId") // was JoinColumn
+    private Integer customerId;
 
     @Basic(fetch = FetchType.LAZY)
     @Column(name = "PackageId")
-    private Integer _package;
+    private Integer packageId;
 
     public Integer getId() {
         return bookingId;
@@ -36,11 +36,11 @@ public class Booking {
         this.bookingId = id;
     }
 
-    public Instant getBookingDate() {
+    public String getBookingDate() {
         return bookingDate;
     }
 
-    public void setBookingDate(Instant bookingDate) {
+    public void setBookingDate(String  bookingDate) {
         this.bookingDate = bookingDate;
     }
 
@@ -52,28 +52,28 @@ public class Booking {
         this.bookingNo = bookingNo;
     }
 
-    public Double getTravelerCount() {
+    public Integer getTravelerCount() {
         return travelerCount;
     }
 
-    public void setTravelerCount(Double travelerCount) {
+    public void setTravelerCount(Integer travelerCount) {
         this.travelerCount = travelerCount;
     }
 
-    public Customer getCustomer() {
-        return customer;
+    public Integer getCustomer() {
+        return customerId;
     }
 
-    public void setCustomer(Customer customer) {
-        this.customer = customer;
+    public void setCustomer(Integer customerId) {
+        this.customerId = customerId;
     }
 
     public Integer get_package() {
-        return _package;
+        return packageId;
     }
 
-    public void set_package(Integer _package) {
-        this._package = _package;
+    public void set_package(Integer packageId) {
+        this.packageId = packageId;
     }
 
 }
