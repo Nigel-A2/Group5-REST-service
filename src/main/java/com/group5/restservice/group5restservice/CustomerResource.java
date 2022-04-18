@@ -116,7 +116,7 @@ public class CustomerResource {
         entityManager.persist(customer);
         entityManager.getTransaction().commit();
         entityManager.close();
-        // set the customer id to 0 when making this request
+        // set the customer id to 0 or null when making this request
         return "{ 'message':'Insert successful' }";
     }
 
