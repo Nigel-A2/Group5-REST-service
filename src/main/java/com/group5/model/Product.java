@@ -8,17 +8,17 @@ public class Product {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Column(name = "ProductId", nullable = false)
-    private Integer id;
+    private Integer productId;
 
     @Column(name = "ProdName", nullable = false, length = 50)
     private String prodName;
 
     public Integer getId() {
-        return id;
+        return productId;
     }
 
     public void setId(Integer id) {
-        this.id = id;
+        this.productId = id;
     }
 
     public String getProdName() {
