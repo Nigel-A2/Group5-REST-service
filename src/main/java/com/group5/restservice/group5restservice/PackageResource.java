@@ -8,12 +8,11 @@ import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.persistence.Query;
-import javax.ws.rs.GET;
-import javax.ws.rs.Path;
-import javax.ws.rs.PathParam;
-import javax.ws.rs.Produces;
+import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.lang.reflect.Type;
+import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.List;
 
 /**
@@ -24,8 +23,10 @@ import java.util.List;
     // so I think we only need read functionality for packages and products
 @Path("/package")
 public class PackageResource {
+    private final Type mapType;
     public PackageResource()
     {
+        mapType = new TypeToken<HashMap<String, Object>>(){}.getType();
         try
         {
             Class.forName("org.mariadb.jdbc.Driver");
@@ -65,5 +66,119 @@ public class PackageResource {
         Gson gson = new Gson();
 
         return gson.toJson(p);
+    }
+
+    @Path("/create")
+    @PUT
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    public String createPackage(String pkgData) {
+        EntityManager manager = Persistence
+                .createEntityManagerFactory("default")
+                .createEntityManager();
+
+        Gson gson = new Gson();
+        Package pkg = gson.fromJson(pkgData, Package.class);
+        manager.getTransaction().begin();
+        manager.persist(pkg);
+
+        if (manager.contains(pkg)) {
+            manager.getTransaction().commit();
+            manager.close();
+
+            return gson.toJson(new LinkedHashMap<String, Object>() {
+                {
+                    put("message", "success");
+                    put("id", pkg.getId());
+                }
+            }, mapType);
+        } else {
+            manager.getTransaction().rollback();
+            manager.close();
+
+            return gson.toJson(new HashMap<String, Object>() {
+                {
+                    put("message", "failure");
+                }
+            }, mapType);
+        }
+    }
+
+    @Path("/update")
+    @POST
+    @Produces(MediaType.APPLICATION_JSON)
+    @Consumes({MediaType.APPLICATION_JSON})
+    public String updatePackage(String pkgData) {
+        EntityManager manager = Persistence
+                .createEntityManagerFactory("default")
+                .createEntityManager();
+
+        Gson gson = new Gson();
+        Package pkg = gson.fromJson(pkgData, Package.class);
+        manager.getTransaction().begin();
+        Package added = manager.merge(pkg);
+
+        if (added != null) {
+            manager.getTransaction().commit();
+            manager.close();
+
+            return gson.toJson(new HashMap<String, Object>() {
+                {
+                    put("message", "success");
+                }
+            }, mapType);
+        } else {
+            manager.getTransaction().rollback();
+            manager.close();
+
+            return gson.toJson(new HashMap<String, Object>() {
+                {
+                    put("message", "failure");
+                }
+            }, mapType);
+        }
+    }
+
+    @Path("/delete/{packageId}")
+    @DELETE
+    @Produces(MediaType.APPLICATION_JSON)
+    public String deletePackage(@PathParam("packageId") int packageId) {
+        EntityManager manager = Persistence
+                .createEntityManagerFactory("default")
+                .createEntityManager();
+
+        Package pkg = manager.find(Package.class, packageId);
+        Gson gson = new Gson();
+
+        try {
+            manager.getTransaction().begin();
+            manager.remove(pkg);
+
+            if (!manager.contains(pkg)) {
+                manager.getTransaction().commit();
+                manager.close();
+
+                return gson.toJson(new HashMap<String, Object>() {
+                    {
+                        put("message", "success");
+                    }
+                }, mapType);
+            } else {
+                manager.getTransaction().rollback();
+                manager.close();
+
+                return gson.toJson(new HashMap<String, Object>() {
+                    {
+                        put("message", "failure");
+                    }
+                }, mapType);
+            }
+        } catch (Exception e) {
+            return gson.toJson(new HashMap<String, Object>() {
+                {
+                    put("message", "failure");
+                }
+            }, mapType);
+        }
     }
 }
