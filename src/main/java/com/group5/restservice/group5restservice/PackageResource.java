@@ -20,8 +20,6 @@ import java.util.List;
  * Package resource - an endpoint for read operations on TravelExperts packages
  * @author Nigel Awrey
  * */
-// This is supposed to represent a website that customers use
-    // so I think we only need read functionality for packages and products
 @Path("/package")
 public class PackageResource {
     public PackageResource()
