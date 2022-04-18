@@ -45,7 +45,7 @@ public class PackageResource {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Query query = entityManager.createQuery("select p from Package p");
-        List<Package> list = query.getResultList();
+        List<Package> list = query.getResultList(); //stack trace complaint
 
         Gson gson = new Gson();
         Type type = new TypeToken<List<Package>>() {
@@ -61,7 +61,7 @@ public class PackageResource {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("default");
         EntityManager manager = factory.createEntityManager();
 
-        Package p = manager.find(Package.class, packageId);
+        Package p = manager.find(Package.class, packageId); // stack trace complaint
         manager.close();
         Gson gson = new Gson();
 
