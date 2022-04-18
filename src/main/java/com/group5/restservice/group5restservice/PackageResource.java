@@ -3,7 +3,6 @@ package com.group5.restservice.group5restservice;
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.group5.model.Package;
-import com.group5.model.Product;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -45,7 +44,7 @@ public class PackageResource {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Query query = entityManager.createQuery("select p from Package p");
-        List<Package> list = query.getResultList(); //stack trace complaint
+        List<Package> list = query.getResultList();
 
         Gson gson = new Gson();
         Type type = new TypeToken<List<Package>>() {
@@ -61,7 +60,7 @@ public class PackageResource {
         EntityManagerFactory factory = Persistence.createEntityManagerFactory("default");
         EntityManager manager = factory.createEntityManager();
 
-        Package p = manager.find(Package.class, packageId); // stack trace complaint
+        Package p = manager.find(Package.class, packageId);
         manager.close();
         Gson gson = new Gson();
 
