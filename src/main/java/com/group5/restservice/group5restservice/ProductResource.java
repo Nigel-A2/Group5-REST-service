@@ -4,15 +4,15 @@ import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
 import com.group5.model.Product;
 
-import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
-import javax.persistence.Persistence;
-import javax.persistence.Query;
+import javax.persistence.*;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.lang.reflect.Type;
 import java.util.HashMap;
 import java.util.List;
+import java.util.logging.Logger;
+
+import static org.eclipse.persistence.expressions.ExpressionOperator.log;
 
 /**
  * Product resource - an endpoint for CRUD operations on TravelExperts products
@@ -23,7 +23,7 @@ public class ProductResource {
     private Type mapType;
 
     public ProductResource() {
-        mapType = new TypeToken<HashMap<String, String>>(){}.getType();
+        mapType = new TypeToken<HashMap<String, Object>>(){}.getType();
         try
         {
             Class.forName("org.mariadb.jdbc.Driver");
@@ -74,13 +74,15 @@ public class ProductResource {
                 .createEntityManager();
 
         Gson gson = new Gson();
+        Logger logger = Logger.getGlobal();
+        logger.info("================"+jsonString+"==============");
         Product product = gson.fromJson(jsonString, Product.class);
         manager.getTransaction().begin();
         manager.persist(product);
         manager.getTransaction().commit();
         manager.close();
 
-        return gson.toJson(new HashMap<String, String>() {
+        return gson.toJson(new HashMap<String, Object>() {
             {
                 put("message", "success");
             }
@@ -105,7 +107,7 @@ public class ProductResource {
             manager.getTransaction().commit();
             manager.close();
 
-            return gson.toJson(new HashMap<String, String>() {
+            return gson.toJson(new HashMap<String, Object>() {
                 {
                     put("message", "success");
                 }
@@ -114,7 +116,7 @@ public class ProductResource {
             manager.getTransaction().rollback();
             manager.close();
 
-            return gson.toJson(new HashMap<String, String>() {
+            return gson.toJson(new HashMap<String, Object>() {
                 {
                     put("message", "failure");
                 }
@@ -137,21 +139,35 @@ public class ProductResource {
         Gson gson = new Gson();
 
         if (!manager.contains(product)) {
-            manager.getTransaction().commit();
+            try {
+                manager.getTransaction().commit();
+            } catch (RollbackException e) {
+                manager.close();
+                return gson.toJson(new HashMap<String, Object>() {
+                    {
+                        put("status", "failure");
+                        put("rowsAffected", 0);
+                        put("err", "integrityConstraintViolation");
+                    }
+                }, mapType);
+            }
             manager.close();
 
-            return gson.toJson(new HashMap<String, String>() {
+            return gson.toJson(new HashMap<String, Object>() {
                 {
-                    put("message", "success");
+                    put("status", "success");
+                    put("rowsAffected", 1);
                 }
             }, mapType);
         } else {
             manager.getTransaction().rollback();
             manager.close();
 
-            return gson.toJson(new HashMap<String, String>() {
+            return gson.toJson(new HashMap<String, Object>() {
                 {
-                    put("message", "failure");
+                    put("status", "failure");
+                    put("rowsAffected", 0);
+                    put("err", "unknown");
                 }
             }, mapType);
         }
