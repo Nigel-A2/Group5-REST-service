@@ -130,18 +130,19 @@ public class CustomerResource {
         EntityManagerFactory entityManagerFactory = Persistence.createEntityManagerFactory("default");
         EntityManager entityManager = entityManagerFactory.createEntityManager();
         Customer customer = entityManager.find(Customer.class, customerId);
-        entityManager.getTransaction().begin();
-        entityManager.remove(customer);
-        if (!entityManager.contains(customer))
-        {
-            entityManager.getTransaction().commit();
-            entityManager.close();
-            return "{ 'message':'Delete successful' }";
-        }
-        else
-        {
-            entityManager.getTransaction().rollback();
-            entityManager.close();
+        try {
+            entityManager.getTransaction().begin();
+            entityManager.remove(customer);
+            if (!entityManager.contains(customer)) {
+                entityManager.getTransaction().commit();
+                entityManager.close();
+                return "{ 'message':'Delete successful' }";
+            } else {
+                entityManager.getTransaction().rollback();
+                entityManager.close();
+                return "{ 'message':'Delete failed' }";
+            }
+        } catch (Exception e) {
             return "{ 'message':'Delete failed' }";
         }
     }
