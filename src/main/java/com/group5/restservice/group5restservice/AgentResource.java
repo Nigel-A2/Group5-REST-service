@@ -1,28 +1,22 @@
 package com.group5.restservice.group5restservice;
 
 import com.google.gson.Gson;
-import com.google.gson.JsonArray;
-import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.group5.model.AgentMin;
-import org.mariadb.jdbc.client.result.Result;
 
 import javax.persistence.EntityManager;
-import javax.persistence.EntityManagerFactory;
 import javax.persistence.Persistence;
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
 import javax.ws.rs.Produces;
 import javax.ws.rs.core.MediaType;
 import java.lang.reflect.Type;
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
+/**
+ * Minimal resource for getting agent list item data
+ * @author Nate Penner
+ * */
 @Path("/agent")
 public class AgentResource {
     public AgentResource() {
