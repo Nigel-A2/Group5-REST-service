@@ -66,6 +66,11 @@ public class PackageResource {
         return gson.toJson(p);
     }
 
+    /**
+     * Creates a new package
+     * @author Nate Penner
+     * @param pkgData The json data to create the package from
+     * */
     @Path("/create")
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
@@ -102,6 +107,11 @@ public class PackageResource {
         }
     }
 
+    /**
+     * Updates an existing package
+     * @author Nate Penner
+     * @param pkgData json data to update the package with
+     * */
     @Path("/update")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -137,6 +147,11 @@ public class PackageResource {
         }
     }
 
+    /**
+     * Deletes a package
+     * @author Nate Penner
+     * @param packageId The id of the package to be deleted
+     * */
     @Path("/delete/{packageId}")
     @DELETE
     @Produces(MediaType.APPLICATION_JSON)

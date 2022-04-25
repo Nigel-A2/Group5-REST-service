@@ -10,6 +10,10 @@ import javax.ws.rs.core.MediaType;
 import java.lang.reflect.Type;
 import java.util.LinkedHashMap;
 
+/**
+ * An API to product a list of provinces
+ * @author Nate Penner
+ * */
 @Path("/region")
 public class RegionResource {
     @Path("/province/list")
