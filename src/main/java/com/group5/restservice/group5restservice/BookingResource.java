@@ -60,6 +60,25 @@ public class BookingResource {
         return gson.toJson(booking);
     }
 
+    /**
+     * Get a customer's bookings from their ID
+     * @author Nate Penner
+     * */
+    @Path("/get/by-customer/{customerId}")
+    @GET
+    @Produces(MediaType.APPLICATION_JSON)
+    public String getBookingsByCustomer(@PathParam("customerId") int customerId) {
+        EntityManager manager = Persistence.createEntityManagerFactory("default")
+                .createEntityManager();
+        List<Booking> bookingsList = manager.createQuery("select b from Booking b where b.customerId=?1", Booking.class)
+                .setParameter(1, customerId)
+                .getResultList();
+
+        Gson gson = new Gson();
+        Type type = new TypeToken<List<Booking>>(){}.getType();
+        return gson.toJson(bookingsList, type);
+    }
+
 
     // this method will update the booking's data
     // it must receive data from the website and app in order to update the data accordingly
