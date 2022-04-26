@@ -1,8 +1,11 @@
 package com.group5.restservice.group5restservice;
 
 import com.google.gson.Gson;
+import com.google.gson.JsonArray;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
 import com.group5.model.Booking;
+import com.group5.model.BookingDetail;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
@@ -74,9 +77,32 @@ public class BookingResource {
                 .setParameter(1, customerId)
                 .getResultList();
 
-        Gson gson = new Gson();
-        Type type = new TypeToken<List<Booking>>(){}.getType();
-        return gson.toJson(bookingsList, type);
+        JsonArray bookings = new JsonArray();
+        bookingsList.forEach(b -> {
+            JsonObject bookingObj = new JsonObject();
+            bookingObj.addProperty("bookingId", b.getId());
+            bookingObj.addProperty("bookingDate", b.getBookingDate());
+            bookingObj.addProperty("bookingNo", b.getBookingNo());
+            bookingObj.addProperty("travelerCount", b.getTravelerCount());
+            List<BookingDetail> bookingDetailsList = manager.createQuery(
+                    "select bd from BookingDetail bd where bd.bookingId = ?1", BookingDetail.class)
+                    .setParameter(1, b.getId())
+                    .getResultList();
+            JsonArray detailArray = new JsonArray();
+            bookingObj.add("details", detailArray);
+            bookingDetailsList.forEach(bd -> {
+                JsonObject bookingDetailObj = new JsonObject();
+                bookingDetailObj.addProperty("tripStart", bd.getTripStart().toString());
+                bookingDetailObj.addProperty("tripEnd", bd.getTripEnd().toString());
+                bookingDetailObj.addProperty("description", bd.getDescription());
+                bookingDetailObj.addProperty("destination", bd.getDestination());
+                bookingDetailObj.addProperty("basePrice", bd.getBasePrice());
+                detailArray.add(bookingDetailObj);
+            });
+            bookings.add(bookingObj);
+        });
+
+        return bookings.toString();
     }
 
 
