@@ -73,7 +73,7 @@ public class BookingResource {
     public String getBookingsByCustomer(@PathParam("customerId") int customerId) {
         EntityManager manager = Persistence.createEntityManagerFactory("default")
                 .createEntityManager();
-        List<Booking> bookingsList = manager.createQuery("select b from Booking b where b.customerId=?1", Booking.class)
+        List<Booking> bookingsList = manager.createQuery("select b from Booking b where b.customerId=?1 order by b.bookingDate desc", Booking.class)
                 .setParameter(1, customerId)
                 .getResultList();
 
