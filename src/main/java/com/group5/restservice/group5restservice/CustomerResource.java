@@ -17,6 +17,7 @@ import java.util.List;
 /**
  * Customer resource - an endpoint for CRUD operations on TravelExperts customers
  * @author Nigel Awrey
+ * @co-author Nate Penner
  * */
 @Path("/customer")
 public class CustomerResource {

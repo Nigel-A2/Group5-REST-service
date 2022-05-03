@@ -18,6 +18,7 @@ import java.util.List;
 /**
  * Package resource - an endpoint for read operations on TravelExperts packages
  * @author Nigel Awrey
+ * @co-author Nate Penner
  * */
 @Path("/package")
 public class PackageResource {

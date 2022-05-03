@@ -16,6 +16,10 @@ import javax.ws.rs.core.MediaType;
 import java.lang.reflect.Type;
 import java.util.List;
 
+/**
+ * @Author Nigel Awrey
+ * @Co-author Nate Penner
+ */
 @Path("/booking")
 public class BookingResource {
     public BookingResource()
