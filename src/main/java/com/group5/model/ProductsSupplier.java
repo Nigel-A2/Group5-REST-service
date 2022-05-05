@@ -10,13 +10,13 @@ public class ProductsSupplier {
     @Column(name = "ProductSupplierId", nullable = false)
     private Integer id;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "ProductId")
-    private Product product;
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "ProductId")
+    private Integer product;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "SupplierId")
-    private Supplier supplier;
+    @Basic(fetch = FetchType.LAZY)
+    @Column(name = "SupplierId")
+    private Integer supplier;
 
     public Integer getId() {
         return id;
@@ -26,19 +26,19 @@ public class ProductsSupplier {
         this.id = id;
     }
 
-    public Product getProduct() {
+    public Integer getProduct() {
         return product;
     }
 
-    public void setProduct(Product product) {
+    public void setProduct(Integer product) {
         this.product = product;
     }
 
-    public Supplier getSupplier() {
+    public Integer getSupplier() {
         return supplier;
     }
 
-    public void setSupplier(Supplier supplier) {
+    public void setSupplier(Integer supplier) {
         this.supplier = supplier;
     }
 

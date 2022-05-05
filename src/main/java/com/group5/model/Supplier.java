@@ -1,9 +1,6 @@
 package com.group5.model;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 
 @Entity
 @Table(name = "suppliers")
@@ -11,6 +8,10 @@ public class Supplier {
     @Id
     @Column(name = "SupplierId", nullable = false)
     private Integer id;
+
+    @Lob
+    @Column(name = "SupName")
+    private String supName;
 
     public Integer getId() {
         return id;
@@ -20,5 +21,12 @@ public class Supplier {
         this.id = id;
     }
 
-//TODO [JPA Buddy] generate columns from DB
+    public String getSupName() {
+        return supName;
+    }
+
+    public void setSupName(String supName) {
+        this.supName = supName;
+    }
+
 }
