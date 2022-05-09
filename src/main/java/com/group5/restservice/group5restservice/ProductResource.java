@@ -34,6 +34,10 @@ public class ProductResource {
         }
     }
 
+    /**
+     * Gets a list of products
+     * @return json string containing a product list
+     * */
     @Path("/list")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -50,6 +54,11 @@ public class ProductResource {
         return gson.toJson(list, type);
     }
 
+    /**
+     * Get product by ID
+     * @param productId the product to get info about
+     * @return the product data as a json string
+     * */
     @Path("/get/{productId}")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -64,6 +73,11 @@ public class ProductResource {
         return gson.toJson(product);
     }
 
+    /**
+     * Creates a new product
+     * @param jsonString The incoming data to be used in product creation
+     * @return a response string, depending on what happened
+     * */
     @Path("/create")
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
@@ -89,6 +103,11 @@ public class ProductResource {
         }, mapType);
     }
 
+    /**
+     * Updates a product
+     * @param jsonString The new product data for the update
+     * @return A response string
+     * */
     @Path("/update")
     @POST
     @Produces(MediaType.APPLICATION_JSON)
@@ -124,6 +143,11 @@ public class ProductResource {
         }
     }
 
+    /**
+     * Delete an existing product by its ID
+     * @param productId The ID of the product to be deleted
+     * @return response string (the result of the deletion, status: success||failure)
+     * */
     @DELETE
     @Path("/delete/{ productId }")
     @Produces(MediaType.APPLICATION_JSON)
