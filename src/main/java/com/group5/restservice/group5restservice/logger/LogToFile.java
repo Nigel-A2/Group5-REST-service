@@ -6,6 +6,10 @@ import java.sql.Date;
 import java.text.MessageFormat;
 import java.time.Instant;
 
+/**
+* Just for debugging help - easy logging to a file
+* @author Nate Penner
+* */
 public class LogToFile {
     public static void logToFile(String data, String file) {
         data = MessageFormat.format("[{0}] - {1}\n", Date.from(Instant.now()).toString(), data);

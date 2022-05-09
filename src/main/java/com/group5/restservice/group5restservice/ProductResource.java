@@ -12,8 +12,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.logging.Logger;
 
-import static org.eclipse.persistence.expressions.ExpressionOperator.log;
-
 /**
  * Product resource - an endpoint for CRUD operations on TravelExperts products
  * @author Nate Penner

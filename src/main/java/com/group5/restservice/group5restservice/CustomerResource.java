@@ -10,8 +10,6 @@ import javax.persistence.Query;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.lang.reflect.Type;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 import java.util.List;
 
 /**
