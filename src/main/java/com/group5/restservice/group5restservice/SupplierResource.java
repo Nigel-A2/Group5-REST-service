@@ -6,12 +6,10 @@ import com.group5.model.Product;
 import com.group5.model.ProductsSupplier;
 import com.group5.model.Supplier;
 import com.group5.restservice.group5restservice.logger.LogToFile;
-import org.eclipse.persistence.tools.schemaframework.TypeTableDefinition;
 import org.mariadb.jdbc.Driver;
 
 import javax.persistence.EntityManager;
 import javax.persistence.Persistence;
-import javax.print.attribute.standard.Media;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import java.lang.reflect.Type;
@@ -25,6 +23,9 @@ import java.util.*;
  * */
 @Path("/supplier")
 public class SupplierResource {
+    /**
+     * Constructor - needed to make sure SQL driver is registered
+     * */
     public SupplierResource() {
         try {
             DriverManager.registerDriver(new Driver());
@@ -32,6 +33,11 @@ public class SupplierResource {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Get a list of suppliers (and the products they supply)
+     * @return json string data representing a supplier and the products they offer
+     * */
     @Path("/list")
     @GET
     @Produces(MediaType.APPLICATION_JSON)
@@ -39,12 +45,15 @@ public class SupplierResource {
         EntityManager manager = Persistence.createEntityManagerFactory("default")
                 .createEntityManager();
 
+        // Get a list of all suppliers
         List<Supplier> suppliersList = manager.createQuery("select s from Supplier s order by s.supName", Supplier.class)
                 .getResultList();
 
+        // Build json array for the response
         JsonArray suppliersArray = new JsonArray();
 
         suppliersList.forEach(s -> {
+            // put supplier info in the response for each supplier
             JsonObject supplier = new JsonObject();
             supplier.addProperty("id", s.getId());
             supplier.addProperty("supName", s.getSupName());
@@ -70,13 +79,18 @@ public class SupplierResource {
 
             suppliersArray.add(supplier);
         });
+
+        // Convert to json string and return
         Type type = new TypeToken<List<Supplier>>(){}.getType();
-
         Gson gson = new Gson();
-
         return gson.toJson(suppliersArray);
     }
 
+    /**
+     * Create a new supplier
+     * @param jsonString The new supplier data
+     * @return A response string
+     * */
     @Path("/create")
     @PUT
     @Produces(MediaType.APPLICATION_JSON)
@@ -87,16 +101,19 @@ public class SupplierResource {
 
         Gson gson = new Gson();
 
+        // Convert the json string to a supplier object
         Supplier supplier = gson.fromJson(jsonString, Supplier.class);
         HashMap<String, Object> response = new HashMap<>();
         Type type = new TypeToken<HashMap<String, Object>>(){}.getType();
 
+        // Check for duplicate supplier id
         if (manager.find(Supplier.class, supplier.getId()) != null) {
             response.put("statusCode", -1);
             response.put("message", "Supplier id already in use.");
             return gson.toJson(response, type);
         }
 
+        // Try to save the new supplier to the database and set up an appropriate response
         try {
             manager.getTransaction().begin();
             manager.persist(supplier);
@@ -113,6 +130,7 @@ public class SupplierResource {
         }
 
         manager.close();
+
         // Succeeded
         response.put("statusCode", 1);
         response.put("message", "success");
@@ -122,6 +140,8 @@ public class SupplierResource {
 
     /**
      * Updates a list of products for a supplier
+     * @param jsonString the product list the supplier now offers
+     * @return A response string
      * */
     @Path("/update")
     @POST
@@ -129,27 +149,36 @@ public class SupplierResource {
     @Consumes({MediaType.APPLICATION_JSON})
     public String updateProduct(String jsonString) {
         Gson gson = new Gson();
-        Type inputType = new TypeToken<HashMap<String, Object>>(){}.getType();
         Type outputType = new TypeToken<HashMap<String, Object>>(){}.getType();
 
+        // Default status code 1 if no problems occurred
         int statusCode = 1;
+
+        // Response builder
+        HashMap<String, Object> response = new HashMap<>();
 
         try {
             EntityManager manager = Persistence.createEntityManagerFactory("default")
                     .createEntityManager();
 
+            // Parse the json string into an object
             JsonObject root = JsonParser.parseString(jsonString).getAsJsonObject();
 
+            // Use the supplier id to get a supplier from the database
             int supplierId = root.get("id").getAsInt();
             Supplier supplier = manager.find(Supplier.class, supplierId);
+
+            // get a list of products supplied by this supplier
             List<ProductsSupplier> supplierProducts = manager.createQuery(
                     "select ps from ProductsSupplier ps where ps.supplier=?1", ProductsSupplier.class
             ).setParameter(1, supplierId).getResultList();
 
-            List<Product> allProducts = manager.createQuery("select p from Product p", Product.class).getResultList();
+            // get the list of products that this supplier will now provide (pulled from the json data)
             List<Product> receivedProducts = getReceivedProductsList(root.get("products").getAsJsonArray());
 
+            // for debugging purposes
             HashMap<String, Boolean> removals = new LinkedHashMap<>();
+
             // Go through database product list for this supplier and remove each one not found in receivedProducts
             LogToFile.logToFile("Checking products supplied by supplier " + supplier.getSupName());
             for (ProductsSupplier sp : supplierProducts) {
@@ -203,6 +232,7 @@ public class SupplierResource {
                         .setParameter(2, rp.getId())
                         .getResultList();
 
+                // Only save the products supplier if it does not already exist in the database
                 if (checkExists.size() < 1) {
                     // make the new product supplier persist
                     try {
@@ -224,34 +254,20 @@ public class SupplierResource {
                 }
             });
 
-            HashMap<String, Object> response = new HashMap<>();
+            // response
             response.put("statusCode", statusCode);
-            return gson.toJson(response, outputType);
-//            return gson.toJson(new HashMap<String, Object>(){
-//                {
-//                    put("statusCode", statusCode);
-////                    put("id_received", supplierId);
-////                    put("products_received_count", receivedProducts.size());
-////                    put("removedProducts", removals);
-//                }
-//            }, inputType);
+
         } catch (Exception e) {
-            HashMap<String, Object> response = new HashMap<>();
+            // response
             response.put("statusCode", statusCode);
             response.put("error", e.getMessage());
             response.put("stackTrace", e.getStackTrace());
-            return gson.toJson(response, outputType);
-//            return gson.toJson(new HashMap<String, Object>() {
-//                {
-//                    put("statusCode", statusCode);
-//                    put("error", e.getMessage());
-//                    put("stackTrace", e.getStackTrace());
-//                }
-//            }, outputType);
         }
+        return gson.toJson(response, outputType);
     }
 
-    public List<Product> getReceivedProductsList(JsonArray array) {
+    // Extract the new product list from the json array
+    private List<Product> getReceivedProductsList(JsonArray array) {
         Gson gson = new Gson();
         List<Product> productList = new ArrayList<>();
         array.forEach(elem -> {

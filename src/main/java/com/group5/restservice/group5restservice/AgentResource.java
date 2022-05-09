@@ -27,6 +27,12 @@ public class AgentResource {
             e.printStackTrace();
         }
     }
+
+    /**
+     * Gets a list of agents including only agent's name and ID
+     * @return json data containing list of agents
+     * @author Nate Penner
+     * */
     @Path("/listitem")
     @GET
     @Produces(MediaType.APPLICATION_JSON)

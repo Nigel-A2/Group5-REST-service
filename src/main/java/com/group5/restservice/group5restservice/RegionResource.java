@@ -11,7 +11,7 @@ import java.lang.reflect.Type;
 import java.util.LinkedHashMap;
 
 /**
- * An API to product a list of provinces
+ * An API to produce a list of provinces
  * @author Nate Penner
  * */
 @Path("/region")
